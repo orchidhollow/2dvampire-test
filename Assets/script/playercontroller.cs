@@ -34,6 +34,7 @@ public class playercontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        forward();
         move();
         switchGun();
         //HP_Change();
@@ -59,10 +60,10 @@ public class playercontroller : MonoBehaviour
         {
             rb.velocity = new Vector2(HorizontalMove*speed, VerticalMove*speed);
             animator.SetFloat("isRunning", Mathf.Abs(HorizontalMove+VerticalMove));
-            if(FaceDirection!=0)
-            {
-                transform.localScale = new Vector3(FaceDirection, 1, 1);
-            }
+            //if(FaceDirection!=0)
+            //{
+            //    transform.localScale = new Vector3(FaceDirection, 1, 1);
+            //}
         }
         
     }
@@ -142,6 +143,21 @@ public class playercontroller : MonoBehaviour
             }
             guns[gunNum].SetActive(true);
         }
+    }
+
+    void forward()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var forward =mousePos-SelfTransform.position;
+        if(forward.x>=0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        
     }
 
 }

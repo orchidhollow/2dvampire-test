@@ -35,6 +35,14 @@ public class Pistol : MonoBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);//将鼠标的像素坐标转换为世界坐标
 
+        if(mousePos.x>transform.position.x)
+        {
+            transform.localScale = new Vector3(flipY, -flipY, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-flipY, flipY, 1);
+        }
 
         Shoot();
     }
@@ -66,9 +74,13 @@ public class Pistol : MonoBehaviour
 
     void Fire()
     {
+
         GameObject bullet = Instantiate(bulletPrefab, muzllePos.position, Quaternion.identity) as GameObject ;//生成子弹预制体
 
-        bullet.GetComponent<Bullet>().SetSpeed(direction);//取Bullet脚本调用SetSpeed
+        float angel = Random.Range(-5f, 5f);
+
+        bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(angel,Vector3.forward)*direction);//取Bullet脚本调用SetSpeed,
+                                                                                                      //随机以z轴偏转，再乘上正常方向就生成了一支歌方向为基准的偏转方向
 
         Instantiate(shellPrefab, shellPos.position, shellPos.rotation);//位置设置为弹仓位置，旋转设置为弹仓旋转角度
     }
