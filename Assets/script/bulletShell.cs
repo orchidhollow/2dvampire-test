@@ -18,14 +18,17 @@ public class bulletShell : MonoBehaviour
     {
         rb= GetComponent<Rigidbody2D>();
         sprite=GetComponent<SpriteRenderer>();
-        rb.velocity=Vector2.up*speed;//向上的速度
-        StartCoroutine(Stop());
+        
     }
 
     // Update is called once per frame
-    void Update()
+    private void OnEnable()//物体被激活时调用
     {
-        
+        rb.velocity = Vector2.up * speed;//向上的速度
+
+        sprite.color = new Color(sprite.color.r,sprite.color.g,sprite.color.b,1);//重新设置颜色
+        rb.gravityScale= 3;
+        StartCoroutine(Stop());
     }
 
     IEnumerator Stop()
@@ -39,6 +42,7 @@ public class bulletShell : MonoBehaviour
             sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b - fadeSpeed);
             yield return new WaitForFixedUpdate();
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        ObjectPool.Instance.PushObject(gameObject);
     }
 }

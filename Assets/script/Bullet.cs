@@ -23,11 +23,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.gameObject.tag=="enemy")
+
+        if (collision.gameObject.tag == "enemy")
         {
-            collision.gameObject.GetComponent<EnemyMovement>().EnemyMove(true,speed,collision.transform.position+(collision.transform.position-transform.position)*5);
+            collision.gameObject.GetComponent<EnemyMovement>().EnemyMove(true, speed, collision.transform.position + (collision.transform.position - transform.position) * 5);
         }
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        ObjectPool.Instance.PushObject(gameObject);
     }
 }
